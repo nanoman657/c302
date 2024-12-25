@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ 3.7, 3.9 ]
+        python-version: [ 3.8, 3.9 ]
         engine: [ jNeuroML, jNeuroML_NEURON, jNeuroML_validate ] #, NON_OMV_TESTS ]
 
     steps:
@@ -35,4 +35,7 @@ jobs:
         pip install .
         pip list
     - name: Run unit tests
-      run: pytest tests/
+      run: |
+        pip install .; pip install owmeta; pip install owmeta-core;
+        owm bundle remote --user add ow 'https://raw.githubusercontent.com/openworm/owmeta-bundles/master/index.json';
+        pytest tests/
